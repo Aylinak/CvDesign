@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Şablonu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar {
+      width: 30%;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar .profile-photo {
+      width: 100px;
+      height: 100px;
+      background-color: #bdc3c7;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .sidebar h1 {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .sidebar h2 {
+      font-size: 16px;
+      font-weight: normal;
+      margin: 5px 0;
+    }
+
+    .sidebar .contact-info {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .sidebar .contact-info p {
+      margin: 5px 0;
+    }
+
+    .content {
+      width: 70%;
+      padding: 20px;
+    }
+
+    .content .section {
+      margin-bottom: 20px;
+    }
+
+    .content .section h2 {
+      font-size: 18px;
+      color: #2980b9;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .content .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .content .section ul li {
+      margin: 5px 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Sol Panel -->
+    <div class="sidebar">
+      <div id="profile-photo" class="profile-photo"></div>
+      <h1 id="profile-name">Ad Soyad</h1>
+      <h2 id="profile-profession">Meslek</h2>
+      <div class="contact-info">
+        <p id="profile-phone">Telefon</p>
+        <p id="profile-email">E-posta</p>
+        <p id="profile-website">Web Sitesi</p>
+        <p id="profile-linkedin">LinkedIn</p>
+      </div>
+    </div>
+
+    <!-- İçerik -->
+    <div class="content">
+      <div class="section">
+        <h2>Hakkımda</h2>
+        <p id="profile-summary">Kişisel özet yazınız...</p>
+      </div>
+
+      <div class="section">
+        <h2>İş Deneyimi</h2>
+        <ul id="work-experience-list"></ul>
+      </div>
+
+      <div class="section">
+        <h2>Eğitim</h2>
+        <ul id="education-list"></ul>
+      </div>
+
+      <div class="section">
+        <h2>Sertifikalar</h2>
+        <ul id="certifications-list"></ul>
+      </div>
+
+      <div class="section">
+        <h2>Beceriler</h2>
+        <ul id="skills-list"></ul>
+      </div>
+
+      <div class="section">
+        <h2>Yabancı Diller</h2>
+        <ul id="languages-list"></ul>
+      </div>
+
+      <div class="section">
+        <h2>Referanslar</h2>
+        <ul id="references-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sayfa yüklendiğinde verileri localStorage'dan al
+    window.onload = function() {
+      const cvData = JSON.parse(localStorage.getItem('cvData'));
+
+      if (cvData) {
+        updateCV(cvData);
+      }
+    };
+
+    // CV'yi güncelleyen fonksiyon
+    function updateCV(cvData) {
+      // Profil bilgilerini güncelleme
+      document.getElementById('profile-name').innerText = cvData.name;
+      document.getElementById('profile-profession').innerText = cvData.profession;
+      document.getElementById('profile-phone').innerText = cvData.phone;
+      document.getElementById('profile-email').innerText = cvData.email;
+      document.getElementById('profile-website').innerText = cvData.website || 'Web Sitesi Yok';
+      document.getElementById('profile-linkedin').innerText = cvData.linkedin || 'LinkedIn Yok';
+      document.getElementById('profile-summary').innerText = cvData.summary || 'Özet Bilgisi Yok';
+
+      // Profil fotoğrafını güncelleme
+      if (cvData.photo) {
+        document.getElementById('profile-photo').style.backgroundImage = `url(${cvData.photo})`;
+      }
+
+      // İş deneyimi
+      document.getElementById('work-experience-list').innerHTML = cvData.workExperience.split('\n').map(item => `<li>${item}</li>`).join('');
+
+      // Eğitim bilgileri
+      document.getElementById('education-list').innerHTML = cvData.education.split('\n').map(item => `<li>${item}</li>`).join('');
+
+      // Sertifikalar
+      document.getElementById('certifications-list').innerHTML = cvData.certifications.split('\n').map(item => `<li>${item}</li>`).join('');
+
+      // Beceriler
+      document.getElementById('skills-list').innerHTML = cvData.skills.split('\n').map(item => `<li>${item}</li>`).join('');
+
+      // Yabancı diller
+      document.getElementById('languages-list').innerHTML = cvData.languages.split('\n').map(item => `<li>${item}</li>`).join('');
+
+      // Referanslar
+      document.getElementById('references-list').innerHTML = cvData.references.split('\n').map(item => `<li>${item}</li>`).join('');
+    }
+  </script>
+
+</body>
+</html>

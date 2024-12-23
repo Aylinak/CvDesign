@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Bilgilerini Gir</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Verdana', sans-serif;
+      margin: 20px 0;
+    }
+
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #333;
+      font-family: 'Georgia', serif;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #photo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      margin-bottom: 20px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #photo-container span {
+      font-size: 14px;
+      color: #666;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #photo-container img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    #change-photo-btn {
+      background-color: #ff9800;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #change-photo-btn:hover {
+      background-color: #e68900;
+    }
+  </style>
+</head>
+<body>
+  <h1>CV Bilgilerini Gir</h1>
+  <form id="cv-form">
+    <div id="photo-container" onclick="document.getElementById('photo').click();">
+      <span>Fotoğraf Yükle</span>
+      <input type="file" id="photo" name="photo" accept="image/*" onchange="previewPhoto(event)" style="display: none;">
+    </div>
+    <button type="button" id="change-photo-btn" style="display:none;" onclick="document.getElementById('photo').click();">Fotoğrafı Değiştir</button>
+
+    <div class="section">
+      <h2>Kişisel Bilgiler</h2>
+      <label for="name">Ad Soyad:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="profession">Unvan:</label>
+      <input type="text" id="profession" name="profession" required>
+
+      <label for="phone">Telefon:</label>
+      <input type="text" id="phone" name="phone" pattern="\d{10}" title="Telefon numarası 10 haneli olmalıdır.">
+
+      <label for="email">E-posta:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="website">Web Sitesi:</label>
+      <input type="text" id="website" name="website">
+
+      <label for="linkedin">LinkedIn:</label>
+      <input type="text" id="linkedin" name="linkedin">
+    </div>
+
+    <div class="section">
+      <h2>Kişisel Özellikler</h2>
+      <label for="summary">Kişisel Özet:</label>
+      <textarea id="summary" name="summary"></textarea>
+
+      <label for="skills">Beceriler:</label>
+      <textarea id="skills" name="skills"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Eğitim ve Deneyim</h2>
+      <label for="education">Eğitim Bilgileri:</label>
+      <textarea id="education" name="education"></textarea>
+
+      <label for="work-experience">İş Deneyimi:</label>
+      <textarea id="work-experience" name="work-experience"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Kurslar ve Sertifikalar</h2>
+      <textarea id="certifications" name="certifications"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Yabancı Diller</h2>
+      <textarea id="languages" name="languages"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Referanslar</h2>
+      <textarea id="references" name="references"></textarea>
+    </div>
+
+    <button type="button" id="preview-button" onclick="updateTemplatePreview()">Önizle</button>
+  </form>
+
+  <script>
+    function previewPhoto(event) {
+      const photoContainer = document.getElementById('photo-container');
+      const changePhotoButton = document.getElementById('change-photo-btn');
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          let img = photoContainer.querySelector('img');
+          if (!img) {  // Eğer img yoksa, oluştur
+            img = document.createElement('img');
+            photoContainer.appendChild(img);
+          }
+          img.src = e.target.result;
+          changePhotoButton.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        photoContainer.innerHTML = '<span>Fotoğraf Yükle</span>';
+        changePhotoButton.style.display = 'none';
+      }
+    }
+
+    function updateTemplatePreview() {
+      // Form verilerini al
+      const name = document.getElementById('name').value;
+      const profession = document.getElementById('profession').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      const website = document.getElementById('website').value;
+      const linkedin = document.getElementById('linkedin').value;
+      const summary = document.getElementById('summary').value;
+      const skills = document.getElementById('skills').value;
+      const education = document.getElementById('education').value;
+      const workExperience = document.getElementById('work-experience').value;
+      const certifications = document.getElementById('certifications').value;
+      const languages = document.getElementById('languages').value;
+      const references = document.getElementById('references').value;
+
+      // Template seçimini URL parametresiyle alın
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedTemplate = urlParams.get('template');
+      
+      // Şablon URL'sini ayarlayın
+      let templateUrl = '';
+      if (selectedTemplate === 'fotosuz') {
+        templateUrl = 'fotosuz_cv.html';
+      } else if (selectedTemplate === 'mavi') {
+        templateUrl = 'mavi_cv.html';
+      } else if (selectedTemplate === 'mor') {
+        templateUrl = 'mor_cv.html';
+      } else if (selectedTemplate === 'ats') {
+        templateUrl = 'ats.html';
+      }
+
+      // Yeni sekme açarak şablonu ve form verilerini gönder
+      const previewWindow = window.open(templateUrl, '_blank');
+      previewWindow.onload = function() {
+        previewWindow.document.getElementById('template-name').textContent = name;
+        previewWindow.document.getElementById('template-profession').textContent = profession;
+        previewWindow.document.getElementById('template-phone').textContent = phone;
+        previewWindow.document.getElementById('template-email').textContent = email;
+        previewWindow.document.getElementById('template-website').textContent = website;
+        previewWindow.document.getElementById('template-linkedin').textContent = linkedin;
+        previewWindow.document.getElementById('template-summary').textContent = summary;
+        previewWindow.document.getElementById('template-skills').textContent = skills;
+        previewWindow.document.getElementById('template-education').textContent = education;
+        previewWindow.document.getElementById('template-workExperience').textContent = workExperience;
+        previewWindow.document.getElementById('template-certifications').textContent = certifications;
+        previewWindow.document.getElementById('template-languages').textContent = languages;
+        previewWindow.document.getElementById('template-references').textContent = references;
+      };
+    }
+  </script>
+</body>
+</html>

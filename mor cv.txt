@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mor CV</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      background-color: white;
+      border: 1px solid #ddd;
+      flex-wrap: wrap;
+    }
+
+    .sidebar {
+      width: 30%;
+      background-color: #e9d8f4;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .sidebar h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 20px 0 10px;
+      border-bottom: 2px solid #c5aed7;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar .photo {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+      border-radius: 50%;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #666;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .content {
+      width: 70%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .content h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .content h2 {
+      font-size: 20px;
+      margin: 20px 0 10px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .content ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .content ul li {
+      margin-bottom: 10px;
+    }
+
+    .content .section {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .sidebar, .content {
+        width: 100%;
+      }
+
+      .sidebar .photo {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="photo" id="photo">Fotoğraf</div>
+      <h1 id="sidebar-name">Ad Soyad</h1>
+      <p id="sidebar-profession">Meslek Adı</p>
+      <h2>Kişisel Özet</h2>
+      <p id="summary">Ehliyet: B</p>
+      <h2>Kişisel Bilgiler</h2>
+      <ul>
+        <li id="sidebar-phone">📞 Telefon</li>
+        <li id="sidebar-email">📧 E-posta</li>
+        <li id="sidebar-website">🌐 Web Sitesi</li>
+        <li id="sidebar-linkedin">🔗 LinkedIn</li>
+      </ul>
+      <h2>Diller</h2>
+      <ul id="sidebar-languages">
+        <li>Almanca - B1</li>
+        <li>İngilizce - B1</li>
+      </ul>
+      <h2>Beceriler</h2>
+      <ul id="sidebar-skills">
+        <li>SEO Metin Yazarlığı</li>
+        <li>Online İçerik Yönetimi</li>
+        <li>Kuram Yönetimi</li>
+        <li>Dijital Pazarlama</li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1 id="content-name">Ad Soyad</h1>
+      <p id="content-profession">Meslek Adı</p>
+      <div class="section">
+        <h2>İş Deneyimi</h2>
+        <ul id="work-experience">
+          <li>2002-2012: Metin Yazarı - Firma A / Alanya</li>
+          <li>2018-2022: Metin Yazarı - Firma B / Ankara</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>Eğitim</h2>
+        <ul id="education">
+          <li>2004-2008: İletişim Lisans - Marmara Üniversitesi</li>
+          <li>2008-2010: Medya ve İletişim Yüksek Lisans - Marmara Üniversitesi</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>Sertifikalar</h2>
+        <ul id="certifications">
+          <li>2008: Udemy - Yazarlık Eğitimi</li>
+          <li>2008-2010: SEO Uyumlu İçerik Yazarlığı</li>
+          <li>2008: Enstitü - İçerik Editörlüğü</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>Referanslar</h2>
+        <ul id="references">
+          <li>Ad Soyad - Firma, İletişim</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // localStorage'dan verileri al
+    const cvData = JSON.parse(localStorage.getItem('cvData'));
+
+    // Eğer cvData varsa, alanları güncelle
+    if (cvData) {
+      document.getElementById('sidebar-name').textContent = cvData.name || "Ad Soyad";
+      document.getElementById('sidebar-profession').textContent = cvData.profession || "Meslek";
+      document.getElementById('content-name').textContent = cvData.name || "Ad Soyad";
+      document.getElementById('content-profession').textContent = cvData.profession || "Meslek";
+      document.getElementById('sidebar-phone').textContent = `📞 ${cvData.phone || "Telefon"}`;
+      document.getElementById('sidebar-email').textContent = `📧 ${cvData.email || "E-posta"}`;
+      document.getElementById('sidebar-website').textContent = `🌐 ${cvData.website || "Web Sitesi"}`;
+      document.getElementById('sidebar-linkedin').textContent = `🔗 ${cvData.linkedin || "LinkedIn"}`;
+      document.getElementById('summary').textContent = cvData.summary || "Kişisel Özet";
+      document.getElementById('sidebar-languages').innerHTML = (cvData.languages || "").split(',').map(lang => `<li>${lang}</li>`).join('');
+      document.getElementById('sidebar-skills').innerHTML = (cvData.skills || "").split(',').map(skill => `<li>${skill}</li>`).join('');
+      document.getElementById('work-experience').innerHTML = (cvData.workExperience || "").split(',').map(exp => `<li>${exp}</li>`).join('');
+      document.getElementById('education').innerHTML = (cvData.education || "").split(',').map(edu => `<li>${edu}</li>`).join('');
+      document.getElementById('certifications').innerHTML = (cvData.certifications || "").split(',').map(cert => `<li>${cert}</li>`).join('');
+      document.getElementById('references').innerHTML = (cvData.references || "").split(',').map(ref => `<li>${ref}</li>`).join('');
+
+      // Fotoğraf varsa, ekle
+      if (cvData.photo) {
+        document.getElementById('photo').style.backgroundImage = `url(${cvData.photo})`;
+        document.getElementById('photo').textContent = ''; // Fotoğraf yüklendiğinde yazıyı kaldır
+      }
+    }
+
+    // Form verilerini güncelleyip localStorage'a kaydet
+    function saveCVData() {
+      const cvData = {
+        name: document.getElementById('name').value,
+        profession: document.getElementById('profession').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        website: document.getElementById('website').value,
+        linkedin: document.getElementById('linkedin').value,
+        summary: document.getElementById('summary').value,
+        languages: document.getElementById('languages').value,
+        skills: document.getElementById('skills').value,
+        workExperience: document.getElementById('work-experience').value,
+        education: document.getElementById('education').value,
+        certifications: document.getElementById('certifications').value,
+        references: document.getElementById('references').value,
+        photo: document.getElementById('photo').style.backgroundImage
+      };
+
+      // Veriyi localStorage'a kaydet
+      localStorage.setItem('cvData', JSON.stringify(cvData));
+
+      // Şablonu güncelle
+      alert('CV verileri kaydedildi!');
+    }
+  </script>
+
+  <!-- Kaydet butonu -->
+  <button onclick="saveCVData()">CV'yi Kaydet</button>
+</body>
+</html>
